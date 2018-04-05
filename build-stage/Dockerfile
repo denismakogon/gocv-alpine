@@ -1,6 +1,6 @@
 FROM golang:1.10-alpine3.7 as build-stage
 
-MAINTAINER Denis Makogon (lildee1991@gmail.com)
+LABEL maintainer="Denis Makogon. mail: lildee1991@gmail.com"
 
 RUN apk add --no-cache ca-certificates
 RUN apk add --no-cache git build-base musl-dev alpine-sdk cmake clang clang-dev make gcc g++ libc-dev linux-headers

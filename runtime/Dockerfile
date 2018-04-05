@@ -1,5 +1,7 @@
 FROM alpine:edge
 
+LABEL maintainer="Denis Makogon. mail: lildee1991@gmail.com"
+
 RUN apk update && apk upgrade \
   && apk add libstdc++ ca-certificates wget
 

@@ -1,4 +1,6 @@
-FROM denismakogon/golang-opencv-alpine:0.0.1 as build-stage
+FROM denismakogon/gocv-build-stage:edge as build-stage
+
+LABEL maintainer="Denis Makogon. mail: lildee1991@gmail.com"
 
 ENV PKG_CONFIG_PATH /usr/local/lib64/pkgconfig
 ENV LD_LIBRARY_PATH /usr/local/lib64
