@@ -37,7 +37,7 @@ pushd build-stage && docker build -t denismakogon/gocv-build-stage:edge .; popd
 ```bash
 pushd example && \ 
     docker build -t denismakogon/golang-opencv-alpine:test . && \ 
-    docker run --rm -ti denismakogon/golang-opencv-alpine:test; \
+        docker run --rm -ti denismakogon/golang-opencv-alpine:test; \
 popd
 ```
 the output should be the following:
