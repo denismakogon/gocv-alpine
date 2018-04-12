@@ -1,32 +1,38 @@
-FROM golang:1.10-alpine3.7 as build-stage
+FROM golang:1.10-alpine3.7
 
 LABEL maintainer="Denis Makogon. mail: lildee1991@gmail.com"
 
-ENV PKG="ca-certificates \
-        git \
-        build-base \
-        musl-dev \
-        alpine-sdk \
-        cmake \
-        clang \
-        clang-dev \
-        make \
-        gcc \
-        g++ \
-        libc-dev \
-        linux-headers \
-        ffmpeg-libs \
-        ffmpeg-dev \
-        libavc1394 \
-        libavc1394-dev \
-        gstreamer \
-        gstreamer-dev \
-        gst-plugins-base \
-        gst-plugins-base-dev \
-        libgphoto2 \
-        libgphoto2-dev"
+ENV BUILD="ca-certificates \
+         git \
+         build-base \
+         musl-dev \
+         alpine-sdk \
+         make \
+         gcc \
+         g++ \
+         libc-dev \
+         linux-headers \
+         libjpeg-turbo \
+         libpng \
+         libwebp \
+         libwebp-dev \
+         tiff \
+         ffmpeg-libs \
+         libavc1394 \
+         jasper-libs \
+         jasper-dev \
+         openblas \
+         libgphoto2 \
+         gstreamer \
+         gst-plugins-base"
 
-RUN apk add --no-cache ${PKG}
+ENV DEV="clang clang-dev cmake pkgconf \
+         openblas-dev gstreamer-dev gst-plugins-base-dev \
+         libgphoto2-dev libjpeg-turbo-dev libpng-dev \
+         tiff-dev jasper-dev ffmpeg-dev libavc1394-dev"
+
+RUN apk add --no-cache ${DEV} && \
+    apk add --no-cache ${BUILD}
 
 RUN mkdir /tmp/opencv
 WORKDIR /tmp/opencv
@@ -41,31 +47,23 @@ RUN cmake \
     -D CMAKE_BUILD_TYPE=RELEASE \
     -D CMAKE_INSTALL_PREFIX=/usr/local \
     -D OPENCV_EXTRA_MODULES_PATH=/tmp/opencv/opencv_contrib-3.4.1/modules \
-    -D BUILD_DOCS=OFF BUILD_EXAMPLES=OFF \
-    -D BUILD_TESTS=OFF -D BUILD_PERF_TESTS=OFF \
-    -D INSTALL_PYTHON_EXAMPLES=NO \
-    -D INSTALL_C_EXAMPLES=NO \
-    # Support
-    -D WITH_IPP=NO \
-    -D WITH_1394=NO \
-    -D WITH_LIBV4L=NO \
-    -D WITH_V4l=YES \
-    -D WITH_TBB=YES \
     -D WITH_FFMPEG=YES \
-    -D WITH_GPHOTO2=YES \
-    -D WITH_GSTREAMER=YES \
-    -D BUILD_opencv_java=OFF \
-    -D BUILD_opencv_python=OFF \
-    -D BUILD_opencv_python2=OFF \
-    -D BUILD_opencv_python3=OFF .. && \
+    -D INSTALL_C_EXAMPLES=NO \
+    -D INSTALL_PYTHON_EXAMPLES=NO \
+    -D BUILD_ANDROID_EXAMPLES=NO \
+    -D BUILD_DOCS=NO \
+    -D BUILD_TESTS=NO \
+    -D BUILD_PERF_TESTS=NO \
+    -D BUILD_EXAMPLES=NO \
+    -D BUILD_opencv_java=NO \
+    -D BUILD_opencv_python=NO \
+    -D BUILD_opencv_python2=NO \
+    -D BUILD_opencv_python3=NO .. && \
     make -j4 && \
     make install && \
-    rm -rf /tmp/opencv
-RUN apk del --purge build-base clang clang-dev cmake pkgconf wget openblas-dev \
-                    openexr-dev gstreamer-dev gst-plugins-base-dev libgphoto2-dev \
-                    libtbb-dev libjpeg-turbo-dev libpng-dev tiff-dev jasper-dev \
-                    ffmpeg-dev libavc1394-dev py-numpy-dev; \
-    rm -vrf /var/cache/apk/*
+    rm -rf /tmp/opencv && \
+    rm -vrf /var/cache/apk/*; \
+    apk del --purge ${DEV}
 
 ENV PKG_CONFIG_PATH /usr/local/lib64/pkgconfig
 ENV LD_LIBRARY_PATH /usr/local/lib64

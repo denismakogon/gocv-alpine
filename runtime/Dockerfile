@@ -10,9 +10,27 @@ COPY --from=build-stage /usr/local/lib64/pkgconfig /usr/local/lib64/pkgconfig
 COPY --from=build-stage /usr/local/include/opencv /usr/local/include/opencv
 COPY --from=build-stage /usr/local/include/opencv2 /usr/local/include/opencv2
 
+ENV PKG="libstdc++ \
+         ca-certificates \
+         wget \
+         libjpeg-turbo \
+         libpng \
+         libwebp \
+         libwebp-dev \
+         tiff \
+         jasper-libs \
+         ffmpeg-libs \
+         libavc1394 \
+         jasper-libs \
+         jasper-dev \
+         openblas \
+         libgphoto2 \
+         gstreamer \
+         gst-plugins-base "
+
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache libstdc++ ca-certificates wget && \
+    apk add --no-cache ${PKG} && \
     wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub && \
     wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.27-r0/glibc-2.27-r0.apk && \
     apk add --no-cache  glibc-2.27-r0.apk && \
