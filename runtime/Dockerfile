@@ -1,12 +1,11 @@
-FROM denismakogon/gocv-build-stage:edge as build-stage
-FROM alpine:edge
+FROM denismakogon/gocv-alpine:3.4.1-buildstage as build-stage
+FROM denismakogon/ffmpeg-alpine:4.0
 
 LABEL maintainer="Denis Makogon. mail: lildee1991@gmail.com"
 
 # OpenCV 3.4.1 shared objects from build-stage
-COPY --from=build-stage /usr/local/lib /usr/local/lib
 COPY --from=build-stage /usr/local/lib64 /usr/local/lib64
-COPY --from=build-stage /usr/local/lib64/pkgconfig /usr/local/lib64/pkgconfig
+COPY --from=build-stage /usr/local/lib64/pkgconfig/opencv.pc /usr/local/lib64/pkgconfig/opencv.pc
 COPY --from=build-stage /usr/local/include/opencv /usr/local/include/opencv
 COPY --from=build-stage /usr/local/include/opencv2 /usr/local/include/opencv2
 
@@ -19,10 +18,8 @@ ENV PKG="libstdc++ \
          libwebp-dev \
          tiff \
          jasper-libs \
-         ffmpeg-libs \
          libavc1394 \
          jasper-libs \
-         jasper-dev \
          openblas \
          libgphoto2 \
          gstreamer \

@@ -1,7 +1,8 @@
-FROM golang:1.10-alpine3.7
+FROM denismakogon/ffmpeg-alpine:4.0-golang
 
 LABEL maintainer="Denis Makogon. mail: lildee1991@gmail.com"
 
+ENV OPENCV_VERSION=3.4.1
 ENV BUILD="ca-certificates \
          git \
          build-base \
@@ -17,10 +18,8 @@ ENV BUILD="ca-certificates \
          libwebp \
          libwebp-dev \
          tiff \
-         ffmpeg-libs \
          libavc1394 \
          jasper-libs \
-         jasper-dev \
          openblas \
          libgphoto2 \
          gstreamer \
@@ -29,24 +28,23 @@ ENV BUILD="ca-certificates \
 ENV DEV="clang clang-dev cmake pkgconf \
          openblas-dev gstreamer-dev gst-plugins-base-dev \
          libgphoto2-dev libjpeg-turbo-dev libpng-dev \
-         tiff-dev jasper-dev ffmpeg-dev libavc1394-dev"
+         tiff-dev jasper-dev libavc1394-dev"
 
-RUN apk add --no-cache ${DEV} && \
-    apk add --no-cache ${BUILD}
 
-RUN mkdir /tmp/opencv
-WORKDIR /tmp/opencv
-RUN wget -O opencv.zip https://github.com/opencv/opencv/archive/3.4.1.zip && \
+RUN apk update && \
+    apk add --no-cache ${BUILD} ${DEV}
+
+RUN mkdir /tmp/opencv && \
+    cd /tmp/opencv && \
+    wget -O opencv.zip https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip && \
     unzip opencv.zip && \
-    wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/3.4.1.zip && \
+    wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip && \
     unzip opencv_contrib.zip && \
-    mkdir /tmp/opencv/opencv-3.4.1/build
-
-WORKDIR /tmp/opencv/opencv-3.4.1/build
-RUN cmake \
+    mkdir /tmp/opencv/opencv-3.4.1/build && cd /tmp/opencv/opencv-${OPENCV_VERSION}/build && \
+    cmake \
     -D CMAKE_BUILD_TYPE=RELEASE \
     -D CMAKE_INSTALL_PREFIX=/usr/local \
-    -D OPENCV_EXTRA_MODULES_PATH=/tmp/opencv/opencv_contrib-3.4.1/modules \
+    -D OPENCV_EXTRA_MODULES_PATH=/tmp/opencv/opencv_contrib-${OPENCV_VERSION}/modules \
     -D WITH_FFMPEG=YES \
     -D INSTALL_C_EXAMPLES=NO \
     -D INSTALL_PYTHON_EXAMPLES=NO \
@@ -61,9 +59,10 @@ RUN cmake \
     -D BUILD_opencv_python3=NO .. && \
     make -j4 && \
     make install && \
-    rm -rf /tmp/opencv && \
-    rm -vrf /var/cache/apk/*; \
-    apk del --purge ${DEV}
+    cd && rm -rf /tmp/opencv
+
+RUN apk del ${DEV_DEPS} && \
+    rm -rf /var/cache/apk/*
 
 ENV PKG_CONFIG_PATH /usr/local/lib64/pkgconfig
 ENV LD_LIBRARY_PATH /usr/local/lib64

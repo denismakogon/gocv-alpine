@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-pushd build-stage && docker build -t denismakogon/gocv-build-stage:edge .; popd
-pushd runtime && docker build -t denismakogon/gocv-runtime:edge .; popd
-pushd example && docker build -t denismakogon/golang-opencv-alpine:test .; popd
-docker run --rm -ti denismakogon/golang-opencv-alpine:test
-docker rmi -f denismakogon/golang-opencv-alpine:test
+pushd build-stage && docker build -t denismakogon/gocv-alpine:3.4.1-buildstage .; popd
+pushd runtime && docker build -t denismakogon/gocv-alpine:3.4.1-runtime .; popd
+pushd example && docker build -t denismakogon/gocv-alpine:test .; popd
+docker run --rm -ti denismakogon/gocv-alpine:test
+docker rmi -f denismakogon/gocv-alpine:test
