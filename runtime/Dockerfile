@@ -1,4 +1,4 @@
-FROM denismakogon/gocv-alpine:3.4.1-buildstage as build-stage
+FROM denismakogon/gocv-alpine:3.4.2-buildstage as build-stage
 FROM denismakogon/ffmpeg-alpine:4.0
 
 LABEL maintainer="Denis Makogon. mail: lildee1991@gmail.com"
