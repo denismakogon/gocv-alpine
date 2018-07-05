@@ -2,7 +2,7 @@ FROM denismakogon/ffmpeg-alpine:4.0-golang
 
 LABEL maintainer="Denis Makogon. mail: lildee1991@gmail.com"
 
-ENV OPENCV_VERSION=3.4.1
+ENV OPENCV_VERSION=3.4.2
 ENV BUILD="ca-certificates \
          git \
          build-base \
@@ -40,7 +40,7 @@ RUN mkdir /tmp/opencv && \
     unzip opencv.zip && \
     wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/${OPENCV_VERSION}.zip && \
     unzip opencv_contrib.zip && \
-    mkdir /tmp/opencv/opencv-3.4.1/build && cd /tmp/opencv/opencv-${OPENCV_VERSION}/build && \
+    mkdir /tmp/opencv/opencv-${OPENCV_VERSION}/build && cd /tmp/opencv/opencv-${OPENCV_VERSION}/build && \
     cmake \
     -D CMAKE_BUILD_TYPE=RELEASE \
     -D CMAKE_INSTALL_PREFIX=/usr/local \
