@@ -5,8 +5,8 @@
  - Alpine 3.7
  - FFMPEG 4.0
  - Golang 1.10
- - OpenCV 3.4.1
- - OpenCV 3.4.1 contrib packages required by GoCV
+ - OpenCV 3.4.2
+ - OpenCV 3.4.2 contrib packages required by GoCV
 
 ## What's in runtime image?
 
@@ -24,13 +24,13 @@ Sample Docker file you can find [here](example/Dockerfile).
 ## Build the runtime image
 
 ```bash
-pushd runtime && docker build -t denismakogon/gocv-alpine:3.4.1-runtime .; popd
+pushd runtime && docker build -t denismakogon/gocv-alpine:3.4.2-runtime .; popd
 ```
 
 ## Build the build-stage image
 
 ```bash
-pushd build-stage && docker build -t denismakogon/gocv-alpine:3.4.1-buildstage .; popd
+pushd build-stage && docker build -t denismakogon/gocv-alpine:3.4.2-buildstage .; popd
 ```
 
 ## Test sample:
@@ -44,6 +44,6 @@ docker run --rm -ti denismakogon/gocv-alpine:test
 
 the output should be the following:
 ```bash
-gocv version: 0.11.0
-opencv lib version: 3.4.1
+gocv version: 0.14.0
+opencv lib version: 3.4.2
 ```
