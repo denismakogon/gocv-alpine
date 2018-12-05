@@ -28,7 +28,7 @@ ENV PKG="libstdc++ \
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache ${PKG} && \
-    wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-glibc/master/sgerrand.rsa.pub && \
+    wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.27-r0/sgerrand.rsa.pub && \
     wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.27-r0/glibc-2.27-r0.apk && \
     apk add --no-cache  glibc-2.27-r0.apk && \
     rm -fr /glibc-2.27-r0.apk && \
