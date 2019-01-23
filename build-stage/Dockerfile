@@ -2,7 +2,7 @@ FROM denismakogon/ffmpeg-alpine:4.0-golang
 
 LABEL maintainer="Denis Makogon. mail: lildee1991@gmail.com"
 
-ENV OPENCV_VERSION=3.4.2
+ENV OPENCV_VERSION=4.0.1
 ENV BUILD="ca-certificates \
          git \
          build-base \
@@ -56,7 +56,8 @@ RUN mkdir /tmp/opencv && \
     -D BUILD_opencv_java=NO \
     -D BUILD_opencv_python=NO \
     -D BUILD_opencv_python2=NO \
-    -D BUILD_opencv_python3=NO .. && \
+    -D BUILD_opencv_python3=NO \
+    -D OPENCV_GENERATE_PKGCONFIG=YES .. && \
     make -j4 && \
     make install && \
     cd && rm -rf /tmp/opencv
