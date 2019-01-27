@@ -27,9 +27,11 @@ ENV PKG="libstdc++ \
 RUN apk update && \
     apk upgrade && \
     apk add --no-cache ${PKG} && \
-    wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.28-r0/sgerrand.rsa.pub && \
+    # The gblic v2.28-r0 doesn't have sgerrand.rsa.pub.
+    # Downloading it from previous version.
+    wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.27-r0/sgerrand.rsa.pub && \
     wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/2.28-r0/glibc-2.28-r0.apk && \
-    apk add --no-cache  glibc-2.28-r0.apk && \
+    apk add --no-cache glibc-2.28-r0.apk && \
     rm -fr /glibc-2.28-r0.apk && \
     rm -rf /var/cache/apk/* && \
     apk del wget
