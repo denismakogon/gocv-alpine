@@ -19,7 +19,7 @@ This is a build image for the multi-stage image provisioning as well as runtime 
 
 ## Example
 
-Sample Docker file you can find [here](example/Dockerfile).
+Sample Docker file you can find [here](Dockerfile).
 
 ## Build the runtime image
 
