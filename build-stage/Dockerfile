@@ -1,4 +1,4 @@
-FROM denismakogon/ffmpeg-alpine:4.0-golang
+FROM denismakogon/ffmpeg-alpine:4.0-golang-1.11
 
 LABEL maintainer="Denis Makogon. mail: lildee1991@gmail.com"
 
