@@ -1,9 +1,9 @@
-# GoCV-compatible OpenCV 4.0.1 Alpine 3.7 Docker images
+# GoCV-compatible OpenCV 4.7.0 Alpine 3.18 Docker images
 
 ## What's in build-stage image?
 
  - Alpine 3.18
- - FFMPEG 4.2
+ - FFMPEG 4.2.9
  - Golang 1.20
  - OpenCV 4.7.0
  - OpenCV 4.7.0 contrib packages required by GoCV
@@ -45,5 +45,5 @@ docker run --rm -ti denismakogon/gocv-alpine:test
 the output should be the following:
 ```bash
 gocv version: 0.18.0
-opencv lib version: 4.0.1
+opencv lib version: 4.7.0
 ```
